@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="US">
+    <head>
+        <title>Development Assignment #2</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-size: large;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        h1 {
+            font-size: 60px;
+            color: black;
+            text-align: center;
+            background-color: darkgray;
+        }
+        .search {
+            text-align: center;
+        }
+        button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            height: 20%;
+            width: 20%;
+        }
+        h2 {
+            text-align: center;
+        }
+        .sWars {
+            text-align: center;
+        }
+        label {
+            font-weight: bolder;
+        }
+        hr {
+            border: 1px dashed;
+        }
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <body>
+        <h1>Movie Search</h1>
+        <div class="search">
+            <label for="movieTitle">Search a movie by title:</label>
+            <input type="text" id="movieTitle" name="movieTitle" size="30">
+        </div>
+        <br>
+        <button type="button" onclick="titleSearch()">Search</button>
+        <h2>-OR-</h2>
+        <div class="sWars">
+            <label for="starWars">Select a Star Wars title:</label>
+            <select id="starWars">
+                <option></option>
+                <option value="Star Wars">Star Wars</option>
+                <option value="The Empire Strikes Back">The Empire Strikes Back</option>
+                <option value="Return of the Jedi">Return of the Jedi</option>
+            </select>
+        </div> 
+        <br>
+        <button type="button" onclick="starSearch()">Search</button>
+        <br><br><br>
+        <div id="title"></div>
+        <div id="director"></div>
+        <div id="plot"></div>
+        <div id="actors"></div>
+        <div id="poster"></div>
+    
+        <script>
+            var dataTitle;
+            var dataDirector;
+            var dataPlot;
+            var dataActors;
+            var dataPoster;
+            var omdbURL = "http://www.omdbapi.com/?apikey=f2d40cfc&";
+            var titleLabel = "<label>Title: </label>";
+            var directorLabel = "<label>Director: </label>";
+            var plotLabel = "<label>Plot: </label>";
+            var actorsLabel = "<label>Actors: </label>";
+            var posterLabel = "<label>Poster: </label>";
+
+			function titleSearch()
+            {
+                var select = document.getElementById("movieTitle").value;
+
+				fetch(omdbURL + "t=" + select + "&plot=full&=json")
+				.then(function(response) {return response.json();})
+				.then(function(json) {
+					dataTitle = json.Title;
+                    dataDirector = json.Director;
+                    dataPlot = json.Plot;
+                    dataActors = json.Actors;
+                    dataPoster = json.Poster;
+
+                    var posterImg = "<img src=" + dataPoster + ">";
+                    
+                    document.getElementById("title").innerHTML = "<hr>" + titleLabel + dataTitle + "<hr>";
+                    document.getElementById("director").innerHTML = directorLabel + dataDirector + "<hr>";
+                    document.getElementById("plot").innerHTML = plotLabel + dataPlot + "<hr>";
+                    document.getElementById("actors").innerHTML = actorsLabel + dataActors + "<hr>";
+                    document.getElementById("poster").innerHTML = posterLabel + "<br>" + posterImg;
+				});
+            }  
+
+            function starSearch()
+            {
+                var select = document.getElementById("starWars").value;
+
+                fetch(omdbURL + "t=" + select + "&plot=full&=json")
+				.then(function(response) {return response.json();})
+				.then(function(json) {
+					dataTitle = json.Title;
+                    dataDirector = json.Director;
+                    dataPlot = json.Plot;
+                    dataActors = json.Actors;
+                    dataPoster = json.Poster;
+
+                    var posterImg = "<img src=" + dataPoster + ">";
+                    
+                    document.getElementById("title").innerHTML = "<hr>" + titleLabel + dataTitle + "<hr>";
+                    document.getElementById("director").innerHTML = directorLabel + dataDirector + "<hr>";
+                    document.getElementById("plot").innerHTML = plotLabel + dataPlot + "<hr>";
+                    document.getElementById("actors").innerHTML = actorsLabel + dataActors + "<hr>";
+                    document.getElementById("poster").innerHTML = posterLabel + "<br>" + posterImg;
+				});
+            }
+    </script>
+</body>
+</html>
